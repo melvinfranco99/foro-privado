@@ -30,7 +30,7 @@ function h(tag, attrs = {}, ...hijos) {
     else if (k === "class") el.className = v;
     else el.setAttribute(k, v === true ? "" : v);
   }
-  for (const c of hijos.flat()) {
+  for (const c of hijos.flat(Infinity)) {
     if (c == null || c === false) continue;
     el.append(c instanceof Node ? c : document.createTextNode(String(c)));
   }
@@ -161,6 +161,7 @@ async function acceder(registro, f) {
   } else {
     if (!existente) throw new Error("No existe ninguna cuenta con ese seudónimo.");
     if (existente.signPk !== signPk) throw new Error("Contraseña incorrecta.");
+    yo.nombre = existente.nombre;
   }
 
   estado.yo = yo;

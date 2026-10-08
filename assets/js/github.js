@@ -13,7 +13,7 @@ export class Repo {
   }
 
   async peticion(metodo, ruta, cuerpo) {
-    const r = await fetch(API + ruta, {
+    const opciones = {
       method: metodo,
       cache: "no-store",
       referrerPolicy: "no-referrer",
@@ -24,7 +24,15 @@ export class Repo {
         ...(cuerpo ? { "Content-Type": "application/json" } : {}),
       },
       body: cuerpo ? JSON.stringify(cuerpo) : undefined,
-    });
+    };
+    // Los circuitos de Tor se cortan a veces: reintenta los fallos de red.
+    let r;
+    for (let intento = 0; ; intento++) {
+      try { r = await fetch(API + ruta, opciones); break; } catch (e) {
+        if (intento >= 3) throw new Error("No hay conexión con GitHub. Inténtalo de nuevo.");
+        await new Promise((ok) => setTimeout(ok, 1000 * (intento + 1)));
+      }
+    }
     const datos = r.status === 204 ? null : await r.json().catch(() => null);
     if (!r.ok) {
       const e = new Error((datos && datos.message) || "GitHub respondió " + r.status);
