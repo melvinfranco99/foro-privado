@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://api.github.com; base-uri 'none'; form-action 'none'">
+  <title>Configurar Umbral</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/vendor/nacl-fast.min.js"></script>
+  <script type="module" src="assets/js/setup.js"></script>
+</head>
+<body>
+  <main class="estrecho">
+    <div class="logo">Umbral</div>
+    <h1>Configuración del foro</h1>
+    <p class="tenue">Sólo para quien administra el repositorio. Se hace una vez (y otra cuando caduque el token).</p>
+
+    <ol class="pasos">
+      <li>Entra en GitHub → <em>Settings → Developer settings → Personal access tokens → Fine-grained tokens</em> → <em>Generate new token</em>.</li>
+      <li><em>Repository access</em>: «Only select repositories» → elige <strong>sólo</strong> este repositorio.</li>
+      <li><em>Permissions → Repository permissions → Contents</em>: «Read and write». Nada más.</li>
+      <li>Copia el token y pégalo aquí junto con la frase de acceso que daréis a los miembros.</li>
+    </ol>
+
+    <form id="setup" class="tarjeta">
+      <div class="dos">
+        <label>Usuario de GitHub <input id="owner" required></label>
+        <label>Repositorio <input id="repo" required></label>
+      </div>
+      <label>Token (fine-grained) <input id="token" type="password" required autocomplete="off" placeholder="github_pat_…"></label>
+      <label>Frase de acceso del foro <input id="frase" type="password" required autocomplete="off" minlength="16"></label>
+      <label>Repite la frase <input id="frase2" type="password" required autocomplete="off"></label>
+      <p class="tenue">La frase cifra todo el contenido del foro y el token. Usa al menos 5 palabras al azar y compártela sólo en persona o por un canal seguro.
+        Si renuevas el token, escribe la misma frase de siempre.</p>
+      <button type="submit" class="primario">Guardar configuración</button>
+      <p id="salida" role="status"></p>
+    </form>
+  </main>
+</body>
+</html>
